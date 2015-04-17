@@ -1,8 +1,12 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'),
+    gulpif = require('gulp-if'),
     minifyHtml = require('gulp-minify-html'),
     browserify = require('gulp-browserify'),
     watch = require('gulp-watch'),
+    sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    minifyCss = require('gulp-minify-css'),
     argv = require('yargs').argv,
     del = require('del');
 
@@ -11,7 +15,7 @@ var config = {
   src: 'src'
 };
 
-gulp.task('default', ['clean', 'audio', 'html', 'js', 'watch', 'serve']);
+gulp.task('default', ['clean', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
 
 gulp.task('audio', function () {
   return gulp.src(config.src + '/audio/**/*')
@@ -37,6 +41,22 @@ gulp.task('html', function () {
     .pipe(connect.reload());
 });
 
+gulp.task('css', function () {
+  return gulp.src(config.src + '/css/main.scss')
+    .pipe(sass())
+    .on('error', function(err){
+      console.log(err);
+      this.emit('end');
+    })
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(gulpif(argv.release, minifyCss()))
+    .pipe(gulp.dest(config.dest + '/css'))
+    .pipe(connect.reload());
+});
+
 gulp.task('js', function () {
   return gulp.src(config.src + '/js/app.js')
     .pipe(browserify({
@@ -56,4 +76,5 @@ gulp.task('watch', function () {
 
   watchAndRun('/**/*.js', 'js');
   watchAndRun('/**/*.html', 'html');
+  watchAndRun('/**/*.scss', 'css');
 });
