@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Zen Chimes</title>
+  </head>
+  <body>
+    <div class="zen-page paused-page">
+      <div class="zen-content">
+        <h1 class="zen-title"><span class="subtle">Zen</span> Chimes</h1>
+        <div class="loading-pane">
+          <div class="loading-progress">
+            <div class="loading-bar"></div>
+          </div>
+          <h2 class="loading-message">Loading...</h2>
+        </div>
+        <div class="control-pane">
+          <button class="btn btn-play">Play</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="zen-page playing-page">
+      <div class="zen-content">
+        <h1 class="zen-clock">...</h1>
+        <div class="control-pane">
+          <button class="btn btn-reset">Reset</button>
+          <button class="btn btn-pause">Pause</button>
+          <button class="btn btn-edit">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="zen-page editing-page">
+      <div class="zen-content">
+        <div class="form-group">
+          <label>Minutes</label>
+          <input class="form-input" name="time" type="number" min="1" max="480">
+        </div>
+        <div class="control-pane">
+          <button class="btn btn-save">Save</button>
+          <button class="btn btn-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
