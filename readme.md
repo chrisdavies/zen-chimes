@@ -2,6 +2,6 @@
 
 Relax. Listen to chimes as you meditate. The chimes stop when the timer stops. No jarring alarms to break your meditation.
 
-## Issues...
+## Todo...
 
-- FireFox is unsupported for now. It has issues with multiple playback.
+Consider a sequence of chimes to signal that the session is over.
