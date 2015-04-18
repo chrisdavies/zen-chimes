@@ -2,34 +2,25 @@
   var load = app('load-audio'),
       dom = app('dom'),
       page = app('page'),
-      settingsStore = app('settings'),
-      settings = settingsStore.read(),
-      Clock = app('clock'),
-      clock = Clock(settings.minutes, pause),
+      events = app('events'),
       player = app('random-player');
 
   load(function () {
     page.show('paused-page');
   });
 
-  var timeInput = dom.one('input[name=time]');
-  timeInput.value = settings.minutes;
-
-  dom.one('.settings-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    settings.minutes = parseInt(timeInput.value) || 10;
-    settingsStore.update(settings);
+  events.on('settings-updated', function () {
     page.show('playing-page');
   });
 
   dom.one('.btn-play').addEventListener('click', function () {
     player.play();
-    clock.start();
+    events.trigger('playing');
     page.show('playing-page');
   });
 
   dom.one('.btn-reset').addEventListener('click', function () {
-    clock.reset();
+    events.trigger('reset');
   });
 
   dom.one('.btn-pause').addEventListener('click', pause);
@@ -41,7 +32,7 @@
 
   function pause () {
     player.pause();
-    clock.stop();
+    events.trigger('paused');
     page.show('paused-page');
   }
 

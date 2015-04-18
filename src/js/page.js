@@ -10,6 +10,8 @@ app('page', function () {
       var pageElement = dom.one('.' + page);
       dom.removeClass(pageElement, 'inactive-page');
       dom.addClass(pageElement, 'active-page');
+
+      app(page);
     }
   }
 });

@@ -1,7 +1,7 @@
 app('elite', function () {
   return function () {
     var callbacks = [],
-        noop = function () { };
+        noop = function () { },
         callback = noop;
 
     return {

@@ -16,7 +16,8 @@ var app = (function () {
         return init(name, def);
       };
     } else {
-      return modules[name]();
+      var module = modules[name];
+      return module ? modules[name]() : console.log('Module ' + name + ' does not exist');
     }
   }
 })();
