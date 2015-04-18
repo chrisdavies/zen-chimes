@@ -2,7 +2,7 @@ html {font-size: 1em;}
 
 body {
   font-family: sans-serif;
-  color: #333;
+  color: #7b7b7b;
   background: #EEE;
   min-height: 100%;
   font-weight: 400;
@@ -32,5 +32,19 @@ small, .font_small {font-size: 0.8em;}
 
 button,
 input {
+  color: inherit;
   font-size: 1em;
+}
+
+input[type=text],
+input[type=number] {
+  padding: 0.5em;
+  border: 0;
+  outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
