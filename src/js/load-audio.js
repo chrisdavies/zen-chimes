@@ -36,10 +36,10 @@ app('load-audio', function () {
       return true;
     }
 
-    $('audio').forEach(function(audio) {
-      incIfReady(audio) || audio.addEventListener('canplay', function () {
-        incIfReady(audio);
-      });
+    $('audio').on('canplay', function (e) {
+      incIfReady(e.target);
+    }).forEach(function (audio) {
+      audio.load();
     });
   };
 });

@@ -41,9 +41,7 @@ app('random-player', function () {
   }
 
   function playOne (audio) {
-    audio.pause();
-    audio.currentTime = 0;
-    audio.play();
+    audio.currentTime ? audio.currentTime = 0 : audio.play();
   }
 
 });
