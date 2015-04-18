@@ -12,9 +12,9 @@ app('load-audio', function () {
         ];
 
     var audioHtml = wav.map(function (w) {
-      return '<audio>' +
-        '<source src="./audio/' + w + '.mp3" />' +
-        '<source src="./audio/' + w + '.wav" />' +
+      return '<audio preload="auto">' +
+        '<source src="audio/' + w + '.mp3" />' +
+        '<source src="audio/' + w + '.wav" />' +
         '</audio>';
     }).join('');
 
