@@ -2,7 +2,7 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     gulpif = require('gulp-if'),
     minifyHtml = require('gulp-minify-html'),
-    browserify = require('gulp-browserify'),
+    concat = require('gulp-concat'),
     watch = require('gulp-watch'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
@@ -63,11 +63,11 @@ gulp.task('css', function () {
 });
 
 gulp.task('js', function () {
-  return gulp.src(config.src + '/js/app.js')
-    .pipe(browserify({
-      insertGlobals: false,
-      debug: !argv.release
-    }))
+  return gulp.src([
+      config.src + '/js/app.js',
+      config.src + '/js/**/!(init.js)',
+      config.src + '/js/init.js'] )
+    .pipe(concat('app.js'))
     .pipe(gulp.dest(config.dest + '/js'))
     .pipe(connect.reload());
 });

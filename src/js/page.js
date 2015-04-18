@@ -1,7 +1,6 @@
-var dom = require('./dom');
-
-module.exports = {
+app.page = {
   show: function (page) {
+    var dom = app.dom;
     var activePage = dom.one('.active-page');
 
     dom.removeClass(activePage, 'active-page');

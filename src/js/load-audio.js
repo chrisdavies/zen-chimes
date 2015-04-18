@@ -1,8 +1,6 @@
-// Load audio files and display progress
-var dom = require('./dom');
-
-module.exports = function (done) {
-  var loadCount = 0,
+app.loadAudio = function (done) {
+  var dom = app.dom,
+      loadCount = 0,
       wav = [
         'c1',
         'c2',
@@ -40,4 +38,4 @@ module.exports = function (done) {
       incIfReady(audio);
     });
   });
-}
+};

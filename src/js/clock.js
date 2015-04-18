@@ -1,7 +1,6 @@
-var dom = require('./dom');
-
-module.exports = function (minutes, done) {
-  var timeout,
+app.Clock = function (minutes, done) {
+  var dom = app.dom,
+      timeout,
       seconds = totalSeconds(),
       clock = dom.one('.zen-clock');
 
@@ -45,4 +44,4 @@ module.exports = function (minutes, done) {
     seconds = totalSeconds();
     setTime();
   }
-}
+};
