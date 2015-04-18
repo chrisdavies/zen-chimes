@@ -2,31 +2,20 @@ app('load-audio', function () {
   return function (done) {
     var $ = app('dom');
 
-    if (isFirefox()) {
-      showUnsupportedMessage();
-    } else {
-      loadAudio();
-    }
+    generateAudioTags();
 
-    function isFirefox() {
-      return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    }
+    monitorAudioStatus();
 
-    function showUnsupportedMessage() {
-      $('.loading-message').text('FireFox is unsupported. :/');
-    }
+    function generateAudioTags() {
+      var wav = [
+        'c1',
+        'c2',
+        'c3',
+        'c4',
+        'c5',
+        'c6'
+      ];
 
-    function loadAudio() {
-      var loadCount = 0,
-        wav = [
-          'c1',
-          'c2',
-          'c3',
-          'c4',
-          'c5',
-          'c6'
-        ];
-      
       var audioHtml = wav.map(function (w) {
         return '<audio preload="auto">' +
           '<source src="audio/' + w + '.mp3" />' +
@@ -34,29 +23,39 @@ app('load-audio', function () {
           '</audio>';
       }).join('');
 
-      var bar = $('.loading-bar');
-
       $('.zen-page').append(audioHtml);
+    }
 
-      function incIfReady (audio) {
-        if (audio.readyState <= 3 || loadCount >= wav.length) return false;
+    function monitorAudioStatus() {
+      var audios = $('audio').toArray(),
+          bar = $('.loading-bar');
 
-        ++loadCount;
-
-        bar.css({
-          width: ((loadCount / wav.length) * 100) + '%'
-        });
-
-        (loadCount >= wav.length) && done && done();
-
-        return true;
-      }
-
-      $('audio').on('canplay', function (e) {
-        incIfReady(e.target);
-      }).forEach(function (audio) {
+      audios.forEach(function (audio) {
         audio.load();
       });
+
+      function updateProgress (loadCount) {
+        bar.css({
+          width: ((loadCount / audios.length) * 100) + '%'
+        });
+      }
+
+      setTimeout(function checkReadyState () {
+        var isDone = audios.every(function (audio) {
+          return audio.readyState > 3;
+        });
+
+        if (isDone) {
+          done();
+        } else {
+          updateProgress(audios.filter(function (audio) {
+            return audio.readyState > 3;
+          }).length);
+
+          setTimeout(checkReadyState, 100);
+        }
+      }, 100);
+
     }
   };
 });

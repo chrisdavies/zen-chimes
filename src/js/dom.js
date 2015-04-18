@@ -38,6 +38,10 @@ app('dom', function () {
         return self;
       },
 
+      toArray: function () {
+        return arr;
+      },
+
       get: function (i) {
         return arr[i];
       },
