@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     minifyCss = require('gulp-minify-css'),
     argv = require('yargs').argv,
     sourcemaps = require('gulp-sourcemaps'),
+    ghPages = require('gulp-gh-pages'),
     del = require('del');
 
 var config = {
@@ -19,6 +20,11 @@ var config = {
 
 gulp.task('default', ['clean'], function () {
   gulp.start(['font', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
+});
+
+gulp.task('deploy', ['default'], function () {
+  return gulp.src(config.dest + '/**/*')
+    .pipe(ghPages());
 });
 
 gulp.task('audio', function () {
