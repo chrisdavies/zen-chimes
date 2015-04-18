@@ -1,9 +1,9 @@
-(function () {
-  var dom = app.dom,
+app('random-player', function () {
+  var dom = app('dom'),
       lastIndex = 0,
       timer;
 
-  app.randomPlayer = {
+  return {
     play: loopRandom,
     pause: pause
   };
@@ -42,4 +42,4 @@
     audio.play();
   }
 
-})();
+});

@@ -1,33 +1,39 @@
-app.Elite = function () {
-  var callbacks = [],
-      noop = function () { };
-      callback = noop;
+app('elite', function () {
+  return function () {
+    var callbacks = [],
+        noop = function () { };
+        callback = noop;
 
-  return {
-    on: on,
-    off: off,
-    trigger: callback
-  };
-
-  function chain(fn) {
-    prevCallback = callback;
-    callback = function (data) {
-      prevCallback(data);
-      fn(data);
+    return {
+      on: on,
+      off: off,
+      trigger: trigger
     };
-  }
 
-  function on(fn) {
-    callbacks.push(fn);
-    chain(fn);
-  }
+    function trigger (arg) {
+      callback(arg);
+    }
 
-  function off(fn) {
-    callbacks = callbacks.filter(function (cb) {
-      return cb !== fn;
-    });
+    function chain(fn) {
+      prevCallback = callback;
+      callback = function (data) {
+        prevCallback(data);
+        fn(data);
+      };
+    }
 
-    callback = noop;
-    callbacks.forEach(chain);
-  }
-};
+    function on(fn) {
+      callbacks.push(fn);
+      chain(fn);
+    }
+
+    function off(fn) {
+      callbacks = callbacks.filter(function (cb) {
+        return cb !== fn;
+      });
+
+      callback = noop;
+      callbacks.forEach(chain);
+    }
+  };
+});

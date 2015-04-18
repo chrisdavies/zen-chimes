@@ -1,5 +1,5 @@
-(function () {
-  app.dom = {
+app('dom', function () {
+  var dom = {
     one: function (selector) {
       return document.querySelector(selector);
     },
@@ -29,5 +29,5 @@
     }
   };
 
-  var dom = app.dom;
-})();
+  return dom;
+});

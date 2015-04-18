@@ -1,12 +1,12 @@
 (function () {
-  var load = app.loadAudio,
-      dom = app.dom,
-      page = app.page,
-      settingsStore = app.settings,
+  var load = app('load-audio'),
+      dom = app('dom'),
+      page = app('page'),
+      settingsStore = app('settings'),
       settings = settingsStore.read(),
-      Clock = app.Clock,
+      Clock = app('clock'),
       clock = Clock(settings.minutes, pause),
-      player = app.randomPlayer;
+      player = app('random-player');
 
   load(function () {
     page.show('paused-page');
@@ -19,9 +19,6 @@
     settings.minutes = parseInt(timeInput.value) || 10;
     settingsStore.update(settings);
     page.show('playing-page');
-    clock.stop();
-    clock = Clock(settings.minutes, pause);
-    clock.start();
   });
 
   dom.one('.btn-play').addEventListener('click', function () {
