@@ -3,11 +3,13 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     minifyHtml = require('gulp-minify-html'),
     concat = require('gulp-concat'),
+    uglify = require('gulp-uglify'),
     watch = require('gulp-watch'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     minifyCss = require('gulp-minify-css'),
     argv = require('yargs').argv,
+    sourcemaps = require('gulp-sourcemaps'),
     del = require('del');
 
 var config = {
@@ -15,7 +17,9 @@ var config = {
   src: 'src'
 };
 
-gulp.task('default', ['clean', 'font', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
+gulp.task('default', ['clean'], function () {
+  gulp.start(['font', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
+});
 
 gulp.task('audio', function () {
   return gulp.src(config.src + '/audio/**/*')
@@ -28,7 +32,7 @@ gulp.task('font', function () {
 });
 
 gulp.task('clean', function (cb) {
-  del(config.dest, cb);
+  del(config.dest + '/**', cb);
 });
 
 gulp.task('serve', function () {
@@ -67,7 +71,10 @@ gulp.task('js', function () {
       config.src + '/js/app.js',
       config.src + '/js/**/!(init.js)',
       config.src + '/js/init.js'] )
-    .pipe(concat('app.js'))
+    .pipe(sourcemaps.init())
+      .pipe(concat('app.js'))
+      .pipe(gulpif(argv.release, uglify()))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(config.dest + '/js'))
     .pipe(connect.reload());
 });
