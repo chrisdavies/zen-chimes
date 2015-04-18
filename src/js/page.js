@@ -1,17 +1,18 @@
 app('page', function () {
   return {
     show: function (page) {
-      var dom = app('dom');
-      var activePage = dom.one('.active-page');
+      var $ = app('dom');
 
-      dom.removeClass(activePage, 'active-page');
-      dom.addClass(activePage, 'inactive-page');
+      $('.active-page')
+        .removeClass('active-page')
+        .addClass('inactive-page');
 
-      var pageElement = dom.one('.' + page);
-      dom.removeClass(pageElement, 'inactive-page');
-      dom.addClass(pageElement, 'active-page');
+      $('.' + page)
+        .removeClass('inactive-page')
+        .addClass('active-page');
 
-      app(page);
+      var pg = app(page);
+      pg && pg.load && pg.load();
     }
   }
 });

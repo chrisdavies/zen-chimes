@@ -1,14 +1,20 @@
 app('editing-page', function () {
-  var dom = app('dom'),
+  var $ = app('dom'),
       settingsStore = app('settings'),
       settings = settingsStore.read(),
-      timeInput = dom.one('input[name=time]');
+      timeInput = $('input[name=time]');
 
-  timeInput.value = settings.minutes;
+  timeInput.val(settings.minutes);
 
-  dom.one('.settings-form').addEventListener('submit', function (e) {
+  $('.settings-form').on('submit', function (e) {
     e.preventDefault();
-    settings.minutes = parseInt(timeInput.value) || 10;
+    settings.minutes = parseInt(timeInput.val()) || 10;
     settingsStore.update(settings);
   });
+
+  return {
+    load: function () {
+      $('.editing-page input').select();
+    }
+  };
 });

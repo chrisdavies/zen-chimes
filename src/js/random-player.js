@@ -1,7 +1,11 @@
 app('random-player', function () {
-  var dom = app('dom'),
+  var $ = app('dom'),
+      events = app('events'),
       lastIndex = 0,
       timer;
+
+  events.on('paused', pause);
+  events.on('playing', loopRandom);
 
   return {
     play: loopRandom,
@@ -25,7 +29,7 @@ app('random-player', function () {
   }
 
   function playRandom() {
-    var audios = dom.all('audio');
+    var audios = $('audio');
     var i = Math.floor(Math.random() * 1000) % audios.length;
 
     if (lastIndex == i) {
@@ -33,7 +37,7 @@ app('random-player', function () {
     }
 
     lastIndex = i;
-    playOne(audios[i]);
+    playOne(audios.get(i));
   }
 
   function playOne (audio) {

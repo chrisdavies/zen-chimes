@@ -14,12 +14,14 @@ app('elite', function () {
       callback(arg);
     }
 
+    function buildCallback(fn1, fn2) {
+      return function (data) {
+        fn1(data); fn2(data);
+      }
+    }
+
     function chain(fn) {
-      prevCallback = callback;
-      callback = function (data) {
-        prevCallback(data);
-        fn(data);
-      };
+      callback = buildCallback(callback, fn);
     }
 
     function on(fn) {

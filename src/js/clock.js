@@ -1,57 +1,57 @@
 app('clock', function () {
-  var dom = app('dom'),
-      events = app('events');
+  var $ = app('dom'),
+      events = app('events'),
+      settingsStore = app('settings');
 
-  return function (minutes, done) {
-    var timeout,
-        seconds = totalSeconds(),
-        clock = dom.one('.zen-clock');
+  var minutes = settingsStore.read().minutes,
+      timeout,
+      seconds = totalSeconds(),
+      clock = $('.zen-clock');
 
-    events.on('settings-updated', function (settings) {
-      minutes = settings.minutes;
-      reset();
-    });
+  events.on('paused', stop);
 
-    return {
-      stop: stop,
-      start: start,
-      reset: reset
-    };
+  events.on('playing', start);
 
-    function totalSeconds() {
-      return (minutes || 10) * 60;
-    }
+  events.on('reset', reset);
 
-    function pad(i) {
-      return ('00' + i.toString()).slice(-2);
-    }
+  events.on('settings-updated', function (settings) {
+    minutes = settings.minutes;
+    reset();
+  });
 
-    function setTime() {
-      var minutes = Math.floor(seconds / 60),
-          secondsInMinute = (seconds % 60);
-      clock.textContent = pad(minutes) + ':' + pad(secondsInMinute);
-    }
+  function totalSeconds() {
+    return (minutes || 10) * 60;
+  }
 
-    function start () {
-      setTimeout(function decSecond () {
-        if (--seconds) {
-          setTime();
-          timeout = setTimeout(decSecond, 1000);
-        } else {
-          done();
-          reset();
-        }
-      }, 0);
-    }
+  function pad(i) {
+    return ('00' + i.toString()).slice(-2);
+  }
 
-    function stop () {
-      clearTimeout(timeout);
-    }
+  function setTime() {
+    var minutes = Math.floor(seconds / 60),
+        secondsInMinute = (seconds % 60);
+    clock.text(pad(minutes) + ':' + pad(secondsInMinute));
+  }
 
-    function reset() {
-      seconds = totalSeconds();
-      setTime();
-    }
-  };
+  function start () {
+    setTimeout(function decSecond () {
+      if (--seconds) {
+        setTime();
+        timeout = setTimeout(decSecond, 1000);
+      } else {
+        done();
+        reset();
+      }
+    }, 0);
+  }
+
+  function stop () {
+    clearTimeout(timeout);
+  }
+
+  function reset() {
+    seconds = totalSeconds();
+    setTime();
+  }
 
 });

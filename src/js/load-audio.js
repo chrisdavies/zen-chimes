@@ -1,6 +1,6 @@
 app('load-audio', function () {
   return function (done) {
-    var dom = app('dom'),
+    var $ = app('dom'),
         loadCount = 0,
         wav = [
           'c1',
@@ -18,23 +18,25 @@ app('load-audio', function () {
         '</audio>';
     }).join('');
 
-    var bar = dom.one('.loading-bar');
+    var bar = $('.loading-bar');
 
-    dom.one('.zen-page').insertAdjacentHTML('afterend', audioHtml);
+    $('.zen-page').append(audioHtml);
 
     function incIfReady (audio) {
       if (audio.readyState <= 3 || loadCount >= wav.length) return false;
 
       ++loadCount;
 
-      bar.style.width = ((loadCount / wav.length) * 100) + '%';
+      bar.css({
+        width: ((loadCount / wav.length) * 100) + '%'
+      });
 
       (loadCount >= wav.length) && done && done();
 
       return true;
     }
 
-    dom.all('audio').forEach(function(audio) {
+    $('audio').forEach(function(audio) {
       incIfReady(audio) || audio.addEventListener('canplay', function () {
         incIfReady(audio);
       });
