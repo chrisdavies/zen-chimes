@@ -14,7 +14,6 @@ app('playing-page', function () {
 
   $('.btn-pause').on('click', function () {
     events.trigger('paused');
-    page.show('paused-page');
   });
 
   $('.btn-edit').on('click', function () {

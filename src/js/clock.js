@@ -39,7 +39,7 @@ app('clock', function () {
         setTime();
         timeout = setTimeout(decSecond, 1000);
       } else {
-        done();
+        events.trigger('paused');
         reset();
       }
     }, 0);
