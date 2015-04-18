@@ -41,6 +41,7 @@ app('random-player', function () {
   }
 
   function playOne (audio) {
+    audio.volume = (Math.floor(Math.random() * 7) + 3) / 10;
     audio.currentTime ? audio.currentTime = 0 : audio.play();
   }
 
