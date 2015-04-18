@@ -1,3 +1,51 @@
+.btn {
+  color: #7b7b7b;
+  border: 2px solid;
+  background: transparent;
+  text-align: center;
+  border-radius: 5em;
+  width: 4em;
+  height: 4em;
+  outline: none;
+}
+
 .subtle {
   opacity: 0.5;
+}
+
+.loading-bar {
+  background: #527bda;
+  height: 1px;
+  width: 1%;
+  transition: width 0.5s;
+}
+
+.zen-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  background: inherit;
+  transition: opacity 1.5s;
+}
+
+.zen-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.active-page {
+  z-index: 2;
+  opacity: 1;
+}
+
+.inactive-page {
+  z-index: 1;
+  opacity: 0;
 }

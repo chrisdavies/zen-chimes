@@ -16,6 +16,7 @@ function loopRandom() {
 
   playMultiple && setTimeout(playRandom, 50);
 
+  pause();
   timer = setTimeout(loopRandom, nextLoop);
 }
 

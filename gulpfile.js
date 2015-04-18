@@ -15,11 +15,16 @@ var config = {
   src: 'src'
 };
 
-gulp.task('default', ['clean', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
+gulp.task('default', ['clean', 'font', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
 
 gulp.task('audio', function () {
   return gulp.src(config.src + '/audio/**/*')
     .pipe(gulp.dest(config.dest + '/audio'));
+});
+
+gulp.task('font', function () {
+  return gulp.src(config.src + '/font/**/*')
+    .pipe(gulp.dest(config.dest + '/font'));
 });
 
 gulp.task('clean', function (cb) {

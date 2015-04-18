@@ -1,4 +1,4 @@
-module.exports = {
+var dom = {
   one: function (selector) {
     return document.querySelector(selector);
   },
@@ -8,11 +8,17 @@ module.exports = {
   },
 
   classes: function (el) {
-    return (el.getAttribute('class') || '').split(/\W+/g);
+    return (el.getAttribute('class') || '').split(/[^\w\-]+/g);
   },
 
   hasClass: function (el, className) {
     return dom.classes(el).indexOf(className) >= 0;
+  },
+
+  removeClass: function (el, className) {
+    el.setAttribute('class', dom.classes(el).filter(function (cls) {
+      return cls !== className;
+    }).join(' '));
   },
 
   addClass: function (el, className) {
@@ -21,3 +27,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = dom;

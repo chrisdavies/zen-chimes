@@ -1,7 +1,7 @@
 // Load audio files and display progress
 var dom = require('./dom');
 
-module.exports = function () {
+module.exports = function (done) {
   var loadCount = 0,
       wav = [
         'c1',
@@ -19,12 +19,25 @@ module.exports = function () {
       '</audio>';
   }).join('');
 
+  var bar = dom.one('.loading-bar');
+
   dom.one('.zen-page').insertAdjacentHTML('afterend', audioHtml);
+
+  function incIfReady (audio) {
+    if (audio.readyState <= 3 || loadCount >= wav.length) return false;
+
+    ++loadCount;
+
+    bar.style.width = ((loadCount / wav.length) * 100) + '%';
+
+    (loadCount >= wav.length) && done && done();
+
+    return true;
+  }
+
   dom.all('audio').forEach(function(audio) {
-    audio.addEventListener('canplaythrough', function () {
-      if (++loadCount >= wav.length) {
-        dom.one('.loading-message').textContent = 'Loaded.';
-      }
+    incIfReady(audio) || audio.addEventListener('canplay', function () {
+      incIfReady(audio);
     });
   });
 }
