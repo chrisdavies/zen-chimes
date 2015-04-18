@@ -18,11 +18,17 @@ var config = {
   src: 'src'
 };
 
+var buildChain = ['font', 'audio', 'html', 'css', 'js'];
+
 gulp.task('default', ['clean'], function () {
-  gulp.start(['font', 'audio', 'html', 'css', 'js', 'watch', 'serve']);
+  gulp.start(buildChain.concat('watch', 'serve'));
 });
 
-gulp.task('deploy', ['default'], function () {
+gulp.task('deploy', ['clean'], function () {
+  return gulp.start('deploy:build');
+});
+
+gulp.task('deploy:build', buildChain, function () {
   return gulp.src(config.dest + '/**/*')
     .pipe(ghPages());
 });
